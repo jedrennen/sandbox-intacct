@@ -71,7 +71,7 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
 
 Sandbox.define('/text-xml','GET', function(req, res) {
     // Check the request, make sure it is a compatible type
-    if (!req.is('text/xml') && !req.is('application/x-intacct-xml-request')) {
+    if (!req.is('text/xml') && !req.is('*/*')) {
         // var ctype = req.type();
         return res.send(400, 'Invalid content type, expected text/xml');// not "' + ctype + '"');
     }
