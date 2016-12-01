@@ -76,7 +76,7 @@ Sandbox.define('/text-xml','GET', function(req, res) {
         // return res.send(400, 'Invalid content type, expected text/xml not "' + ctype + '"');
         res.type('application/json');
         res.status(400);
-        return res.json(req.headers['Content-Type']);
+        return res.json({ type: req.headers['Content-Type'] });
     }
     
     // Set the type of response, sets the content type.
