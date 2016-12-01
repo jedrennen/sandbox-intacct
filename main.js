@@ -46,6 +46,19 @@ Sandbox.define('/users/{username}', 'GET', function(req, res) {
     return res.json(user);
 });
 
+Sandbox.define('/xmlgw-xml', 'POST', function(req, res) {
+    // Check the request, make sure it is a compatible type
+    if (!req.is('text/xml')) {
+        var ctype = req.headers['Content-Type'];
+        return res.send(400, 'Invalid content type, expected x-intacct-xml-request, got ' + req.headers['Content-Type']);
+    }
+    
+    // Test the xmlDoc
+    res.type('application/json');
+    res.status(200);
+    return res.json({ xml: req.xmlDoc, body: req.body });
+})
+
 Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
     // Check the request, make sure it is a compatible type
     if (!(req.is('text/xml') || req.headers['Content-Type'] == 'x-intacct-xml-request')) {
@@ -53,26 +66,38 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
         return res.send(400, 'Invalid content type, expected x-intacct-xml-request, got ' + req.headers['Content-Type']);
     }
     
+    var connector = http.request({
+        host: 'http://intacct.getsandbox.com',
+        path: '/xmlgw-xml',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/xml'
+        },
+        body: req.body
+    }, function(resp) {
+        resp.pipe(res);
+    });
+    
     // Test the xmlDoc
-    res.type('applicaiton/json');
-    res.status(200);
-    return res.json({ xml: req.xmlDoc, body: req.body });
+    // res.type('application/json');
+    // res.status(200);
+    // return res.json({ xml: req.xmlDoc, body: req.body });
     
     // Set the type of response, sets the content type.
-    res.type('text/xml');
+    // res.type('text/xml');
     
-    // Set the status code of the response.
-    res.status(200);
+    // // Set the status code of the response.
+    // res.status(200);
     
-    var dt = new Date();
-    var utcDate = dt.toUTCString();
-    //var isoDate = utcDate.toISOString();
+    // var dt = new Date();
+    // var utcDate = dt.toUTCString();
+    // //var isoDate = utcDate.toISOString();
     
-    // parse the body
-    var senderid = req.xmlDoc.get("//request/control/senderid").text()
+    // // parse the body
+    // var senderid = req.xmlDoc.get("//request/control/senderid").text()
     
-    // Send the response body.
-    res.render('getAPISession-success', { timestamp: utcDate, user: { senderid: 'mysender', senderpassword: 'supersecret'} });
+    // // Send the response body.
+    // res.render('getAPISession-success', { timestamp: utcDate, user: { senderid: 'mysender', senderpassword: 'supersecret'} });
 })
 
 Sandbox.define('/text-xml','GET', function(req, res) {
