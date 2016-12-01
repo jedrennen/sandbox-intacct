@@ -65,18 +65,22 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
         var ctype = req.headers['Content-Type'];
         return res.send(400, 'Invalid content type, expected x-intacct-xml-request, got ' + req.headers['Content-Type']);
     }
+
+    // This doesn't work because http isn't loaded    
+    // var connector = http.request({
+    //     host: 'http://intacct.getsandbox.com',
+    //     path: '/xmlgw-xml',
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'text/xml'
+    //     },
+    //     body: req.body
+    // }, function(resp) {
+    //     resp.pipe(res);
+    // });
     
-    var connector = http.request({
-        host: 'http://intacct.getsandbox.com',
-        path: '/xmlgw-xml',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/xml'
-        },
-        body: req.body
-    }, function(resp) {
-        resp.pipe(res);
-    });
+    // 
+    res.redirect('/xmlgw-xml');
     
     // Test the xmlDoc
     // res.type('application/json');
