@@ -67,20 +67,21 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
     }
 
     // This doesn't work because http isn't loaded    
-    // var connector = http.request({
-    //     host: 'http://intacct.getsandbox.com',
-    //     path: '/xmlgw-xml',
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'text/xml'
-    //     },
-    //     body: req.body
-    // }, function(resp) {
-    //     resp.pipe(res);
-    // });
+    var http = require('http');
+    var connector = http.request({
+        host: 'http://intacct.getsandbox.com',
+        path: '/xmlgw-xml',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/xml'
+        },
+        body: req.body
+    }, function(resp) {
+        resp.pipe(res);
+    });
     
-    // 
-    res.redirect('/xmlgw-xml');
+    // This doesn't work: TypeError: res.redirect is not a function in main.js at line number 83
+    // res.redirect('/xmlgw-xml');
     
     // Test the xmlDoc
     // res.type('application/json');
