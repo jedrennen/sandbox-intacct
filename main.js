@@ -56,7 +56,7 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
     // Test the xmlDoc
     res.type('applicaiton/json');
     res.status(200);
-    return res.json(req.xmlDoc);
+    return res.json({ xml: req.xmlDoc });
     
     // Set the type of response, sets the content type.
     res.type('text/xml');
