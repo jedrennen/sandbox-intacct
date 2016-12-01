@@ -53,6 +53,11 @@ Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
         return res.send(400, 'Invalid content type, expected x-intacct-xml-request, got ' + req.headers['Content-Type']);
     }
     
+    // Test the xmlDoc
+    res.type('applicaiton/json');
+    res.status(200);
+    return res.json(req.xmlDoc);
+    
     // Set the type of response, sets the content type.
     res.type('text/xml');
     
