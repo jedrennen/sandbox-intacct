@@ -48,9 +48,10 @@ Sandbox.define('/users/{username}', 'GET', function(req, res) {
 
 Sandbox.define('/xmlgw.phtml','POST', function(req, res) {
     // Check the request, make sure it is a compatible type
-    //if (!req.is('x-intacct-xml-request')) {
-    //    return res.send(400, 'Invalid content type, expected x-intacct-xml-request');
-    //}
+    if (!(req.is('text/xml') || req.headers['Content-Type'] == 'x-intacct-xml-request')) {
+        var ctype = req.headers['Content-Type'];
+        return res.send(400, 'Invalid content type, expected x-intacct-xml-request, got ' + req.headers['Content-Type']);
+    }
     
     // Set the type of response, sets the content type.
     res.type('text/xml');
@@ -74,9 +75,6 @@ Sandbox.define('/text-xml','GET', function(req, res) {
     if (!(req.is('text/xml') || req.headers['Content-Type'] == 'x-intacct-xml-request')) {
         var ctype = req.headers['Content-Type'];
         return res.send(400, 'Invalid content type, expected text/xml not "' + ctype + '"');
-        // res.type('application/json');
-        // res.status(400);
-        // return res.json({ type: req.headers['Content-Type'] });
     }
     
     // Set the type of response, sets the content type.
