@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>{{ data.user.senderid }}</senderid>
+        <controlid>{{ data.req.controlid }}</controlid>
+        <uniqueid>{{ data.req.uniqueid }}</uniqueid>
+        <dtdversion>{{ data.req.dtdversion }}</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>{{ data.user.userid }}</userid>
+            <companyid>{{ data.user.companyid }}</companyid>
+            <sessiontimestamp>{{ data.timestamp | date: "%FT%T%:z" }}</sessiontimestamp>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>getAPISession</function>
+            <controlid>{{ data.req.funccontrolid }}</controlid>
+            <data>
+                <api>
+                    <sessionid>4jepOeOUyD8C3dDxz5YYd5jVPwPd0A..</sessionid>
+                    <endpoint>https://intacct.getsandbox.com/xmlgw.phtml</endpoint>
+                </api>
+            </data>
+        </result>
+    </operation>
+</response>
